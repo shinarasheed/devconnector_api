@@ -1,0 +1,4 @@
+{
+  //   "mongoURI": "mongodb+srv://rasheedopeyemi:opeyemi22@@cluster0.9m6fq.mongodb.net/devconnectorshina?retryWrites=true&w=majority"
+  "mongoURI": "mongodb://localhost:27017/devconnectorshina"
+}
