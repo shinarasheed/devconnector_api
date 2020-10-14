@@ -27,6 +27,17 @@ const PostSchema = new Schema({
     },
   ],
 
+  views: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
   comments: [
     {
       user: {

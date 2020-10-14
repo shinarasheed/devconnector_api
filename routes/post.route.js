@@ -21,6 +21,15 @@ router.put(
 );
 
 router.get('/', PostController.getPosts);
-router.get('/:postId', PostController.getPost);
+router.get('/:postId', verifyToken, PostController.getPost);
+router.post('/:postId/comment', verifyToken, PostController.addComment);
+router.delete(
+  '/:postId/comment/:commentId',
+  verifyToken,
+  PostController.deleteComment
+);
+
+router.post('/:postId/like', verifyToken, PostController.likePost);
+router.delete('/:postId/unlike', verifyToken, PostController.unlikePost);
 
 module.exports = router;

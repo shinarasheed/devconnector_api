@@ -98,6 +98,33 @@ class PostController {
   }
 
   /**
+   * Get Single Post.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getPost(req, res) {
+    try {
+      const post = await Post.findById(req.params.postId);
+
+      const user = await User.findById(req.user);
+
+      const view = {
+        user: req.user,
+        name: user.name,
+      };
+
+      post.views.unshift(view);
+      await post.save();
+      res.status(200).json({ status: 'success', data: post });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
    * Get all Post.
    * @param {Request} req - Response object.
    * @param {Response} res - The payload.
@@ -117,18 +144,171 @@ class PostController {
   }
 
   /**
-   * Get Single Post.
+   * comment on a Post.
    * @param {Request} req - Response object.
    * @param {Response} res - The payload.
    * @memberof PostController
    * @returns {JSON} - A JSON success response.
    */
-  static async getPost(req, res) {
+  static async addComment(req, res) {
+    try {
+      let post = await Post.findById(req.params.postId);
+      if (!post) {
+        res.status(404).json({ status: 'error', message: 'post not found' });
+      }
+      const user = await User.findOne({ _id: req.user });
+
+      ///setup comment
+      const { text } = req.body;
+      const newComment = {
+        user: req.user,
+        name: user.name,
+        avatar: user.avatar,
+        text,
+      };
+
+      post.comments.unshift(newComment);
+      await post.save();
+      res.status(201).json({
+        status: 'success',
+        count: post.comments.length,
+        data: post.comments,
+      });
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'post not found' });
+      }
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   * Delete Comment from Post.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async deleteComment(req, res) {
     try {
       const post = await Post.findById(req.params.postId);
+      if (!post) {
+        return res
+          .status(404)
+          .json({ status: 'error', message: 'post nor found' });
+      }
+
+      const comment = post.comments.find(
+        (comment) => comment.id === req.params.commentId
+      );
+      if (!comment) {
+        return res
+          .status(404)
+          .json({ status: 'error', message: 'comment not found' });
+      }
+
+      if (comment.user.toString() !== req.user) {
+        return res
+          .status(403)
+          .json({ status: 'error', message: 'permission denied' });
+      }
+
+      const comments = post.comments;
+      //get comments index array
+      const commentsIndexArray = comments.map((comment) => comment._id);
+      //get index of comment to remove
+      const index = commentsIndexArray.indexOf(req.params.commentId);
+      comments.splice(index, 1);
+      await post.save();
+      res.status(200).json({ status: 'success', message: 'comment deleted' });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   *Like a Post.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async likePost(req, res) {
+    try {
+      let post = await Post.findById(req.params.postId);
+      if (!post) {
+        res.status(404).json({ status: 'error', message: 'post not found' });
+      }
+
+      const like = {
+        user: req.user,
+      };
+
+      const likeExist = post.likes.find(
+        (like) => like.user.toString() === req.user
+      );
+
+      if (likeExist) {
+        return res
+          .status(403)
+          .json({ status: 'error', message: 'you already liked this post' });
+      }
+
+      post.likes.unshift(like);
+      await post.save();
+      res.status(201).json({
+        status: 'success',
+        count: post.likes.length,
+        data: post.likes,
+      });
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'post not found' });
+      }
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   *UnLike a Post.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async unlikePost(req, res) {
+    try {
+      let post = await Post.findById(req.params.postId);
+      if (!post) {
+        res.status(404).json({ status: 'error', message: 'post not found' });
+      }
+
+      //check if post has not been liked
+      if (
+        post.likes.filter((like) => like.user.toString() === req.user)
+          .length === 0
+      ) {
+        return res
+          .status(403)
+          .json({ status: 'error', message: 'post has not been liked by you' });
+      }
+
+      const likes = post.likes;
+      //get comments index array
+      const likesIndexArray = likes.map((like) => like.user);
+      //get index of like to remove
+      const index = likesIndexArray.indexOf(req.user);
+      likes.splice(index, 1);
+      await post.save();
       res.status(200).json({ status: 'success', data: post });
     } catch (err) {
       console.log(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'post not found' });
+      }
       res.status(500).json({ status: 'error', error: 'Server error' });
     }
   }
