@@ -1,6 +1,7 @@
 const Profile = require('../model/profile.model');
 const Post = require('../model/post.model');
 const User = require('../model/user.model');
+const axios = require('axios');
 /**
  *Contains Profile Controller
  *
@@ -233,6 +234,115 @@ class ProfileController {
         status: 'success',
         message: 'profile, posts and account deleted',
       });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   * get user's profile.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getProfile(req, res) {
+    try {
+      const profile = Profile.findOne({ user: req.user }).populate({
+        path: 'user',
+        select: 'name avatar',
+      });
+
+      if (!profile) {
+        return res
+          .status(404)
+          .json({ status: 'error', error: 'profile not found' });
+      }
+      res.status(200).json({
+        status: 'success',
+        data: profile,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   * get user's profile.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getProfile(req, res) {
+    try {
+      const profile = Profile.findOne({ user: req.user }).populate({
+        path: 'user',
+        select: 'name avatar',
+      });
+
+      if (!profile) {
+        return res
+          .status(404)
+          .json({ status: 'error', error: 'profile not found' });
+      }
+      res.status(200).json({
+        status: 'success',
+        data: profile,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+  /**
+   * get user's profile.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getProfile(req, res) {
+    try {
+      const profile = Profile.findOne({ user: req.user }).populate({
+        path: 'user',
+        select: 'name avatar',
+      });
+
+      if (!profile) {
+        return res
+          .status(404)
+          .json({ status: 'error', error: 'profile not found' });
+      }
+      res.status(200).json({
+        status: 'success',
+        data: profile,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
+   * get user's profile.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getGithubrepos(req, res) {
+    try {
+      const response = await axios.get(
+        `https://api.github.com/users/${req.params.username}/repos?per_page=10&sort=created:asc&client_id=${process.env.GITHUB_CLIENTID}&client_secret=${process.env.GITHUB_CLIENTSECRET}`
+      );
+
+      const data = response.data;
+      res
+        .status(200)
+        .json({ status: 'success', count: data.length, data: data });
     } catch (err) {
       console.log(err.message);
       res.status(500).json({ status: 'error', error: 'Server error' });
