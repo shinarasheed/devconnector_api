@@ -1,22 +1,24 @@
 const { check, validationResult } = require('express-validator');
 
 /**
- *Contains Profile Validator
+ *Contains Profile Experience Validator
  *
  *
  *
- * @class Profile
+ * @class Profile Experience
  */
-class ProfileValidator {
+class ProfileExperienceValidator {
   /**
-   * validate Profile data.
-   * @memberof Profile
+   * validate Profile Experience data.
+   * @memberof Profile Experience
    * @returns {null} - No response.
    */
   static validateData() {
     return [
-      check('status').not().isEmpty().withMessage('status is required'),
-      check('skills').not().isEmpty().withMessage('skills is required'),
+      check('title').not().isEmpty().withMessage('title is required'),
+      check('company').not().isEmpty().withMessage('company is required'),
+      check('location').not().isEmpty().withMessage('location is required'),
+      check('from').not().isEmpty().withMessage('from date is required'),
     ];
   }
 
@@ -41,4 +43,4 @@ class ProfileValidator {
   }
 }
 
-module.exports = ProfileValidator;
+module.exports = ProfileExperienceValidator;

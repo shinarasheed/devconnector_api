@@ -16,9 +16,8 @@ class PostController {
    * @returns {JSON} - A JSON success response.
    */
   static async createPost(req, res) {
+    const { text } = req.body;
     try {
-      const { text } = req.body;
-
       //find the user
       const user = await User.findOne({ _id: req.user });
 
