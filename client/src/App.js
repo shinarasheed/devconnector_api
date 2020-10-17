@@ -13,6 +13,8 @@ import setAuthtoken from './utils/setAuthToken';
 import Dashboard from './components/dashboard/Dashboard';
 import store from './store';
 import { Provider } from 'react-redux';
+import CreateProfile from './components/profile/CreateProfile';
+import ProtectedRoute from './components/ProtectedRoute';
 // import { LOGOUT } from './actions/types';
 
 if (localStorage.token) {
@@ -37,8 +39,13 @@ const App = () => {
           <Route exact path="/" component={Landing} />
           <Route exact path="/register" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/profiles" component={Profiles} />
-          <Route exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/profiles" component={Profiles} />
+          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute
+            exact
+            path="/create-profile"
+            component={CreateProfile}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>
