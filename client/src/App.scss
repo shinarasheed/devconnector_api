@@ -175,6 +175,11 @@ img {
   background: var(--light-color);
   color: #333;
   text-align: center;
+
+  @media (max-width: 768px) {
+    width: 80vw;
+    font-size: 13px;
+  }
 }
 
 .btn-primary,
