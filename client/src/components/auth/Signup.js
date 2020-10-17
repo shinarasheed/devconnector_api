@@ -24,7 +24,7 @@ const Signup = () => {
             type="password"
             placeholder="Password"
             name="password"
-            minlength="6"
+            minLength="6"
           />
         </div>
         <div className="form-group">
@@ -32,7 +32,7 @@ const Signup = () => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minlength="6"
+            minLength="6"
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
