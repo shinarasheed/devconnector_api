@@ -169,10 +169,12 @@ img {
 
 .alert {
   padding: 0.8rem;
-  margin: 1rem 0;
+  width: 20vw;
+  margin: 1rem auto;
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
+  text-align: center;
 }
 
 .btn-primary,
