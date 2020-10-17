@@ -17,6 +17,6 @@ router.post(
   LoginValidator.ValidationResult,
   AuthController.loginUser
 );
-router.get('/me', verifyToken, AuthController.getAuthUser);
+router.get('/', verifyToken, AuthController.getAuthUser);
 
 module.exports = router;
