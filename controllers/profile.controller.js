@@ -249,7 +249,7 @@ class ProfileController {
    */
   static async getProfile(req, res) {
     try {
-      const profile = Profile.findOne({ user: req.user }).populate({
+      const profile = await Profile.findOne({ user: req.user }).populate({
         path: 'user',
         select: 'name avatar',
       });
@@ -270,64 +270,7 @@ class ProfileController {
   }
 
   /**
-   * get user's profile.
-   * @param {Request} req - Response object.
-   * @param {Response} res - The payload.
-   * @memberof PostController
-   * @returns {JSON} - A JSON success response.
-   */
-  static async getProfile(req, res) {
-    try {
-      const profile = Profile.findOne({ user: req.user }).populate({
-        path: 'user',
-        select: 'name avatar',
-      });
-
-      if (!profile) {
-        return res
-          .status(404)
-          .json({ status: 'error', error: 'profile not found' });
-      }
-      res.status(200).json({
-        status: 'success',
-        data: profile,
-      });
-    } catch (err) {
-      console.log(err.message);
-      res.status(500).json({ status: 'error', error: 'Server error' });
-    }
-  }
-  /**
-   * get user's profile.
-   * @param {Request} req - Response object.
-   * @param {Response} res - The payload.
-   * @memberof PostController
-   * @returns {JSON} - A JSON success response.
-   */
-  static async getProfile(req, res) {
-    try {
-      const profile = Profile.findOne({ user: req.user }).populate({
-        path: 'user',
-        select: 'name avatar',
-      });
-
-      if (!profile) {
-        return res
-          .status(404)
-          .json({ status: 'error', error: 'profile not found' });
-      }
-      res.status(200).json({
-        status: 'success',
-        data: profile,
-      });
-    } catch (err) {
-      console.log(err.message);
-      res.status(500).json({ status: 'error', error: 'Server error' });
-    }
-  }
-
-  /**
-   * get user's profile.
+   * get user's github repos.
    * @param {Request} req - Response object.
    * @param {Response} res - The payload.
    * @memberof PostController

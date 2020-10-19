@@ -15,6 +15,8 @@ import store from './store';
 import { Provider } from 'react-redux';
 import CreateProfile from './components/profile/CreateProfile';
 import ProtectedRoute from './components/ProtectedRoute';
+import AddEducation from './components/profile/addEducation';
+import AddExperience from './components/profile/addExperience';
 // import { LOGOUT } from './actions/types';
 
 if (localStorage.token) {
@@ -41,6 +43,16 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <ProtectedRoute exact path="/profiles" component={Profiles} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute
+            exact
+            path="/add-education"
+            component={AddEducation}
+          />
+          <ProtectedRoute
+            exact
+            path="/add-experience"
+            component={AddExperience}
+          />
           <ProtectedRoute
             exact
             path="/create-profile"
