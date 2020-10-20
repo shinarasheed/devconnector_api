@@ -17,6 +17,9 @@ import CreateProfile from './components/profile/CreateProfile';
 import ProtectedRoute from './components/ProtectedRoute';
 import AddEducation from './components/profile/addEducation';
 import AddExperience from './components/profile/addExperience';
+import EditProfile from './components/profile/EditProfile';
+import PostList from './components/posts/PostList';
+import PostForm from './components/posts/PostForm';
 // import { LOGOUT } from './actions/types';
 
 if (localStorage.token) {
@@ -58,6 +61,9 @@ const App = () => {
             path="/create-profile"
             component={CreateProfile}
           />
+          <ProtectedRoute exact path="/edit-profile" component={EditProfile} />
+          <ProtectedRoute exact path="/add-post" component={PostForm} />
+          <ProtectedRoute exact path="/posts" component={PostList} />
           <Route component={NotFound} />
         </Switch>
       </Router>

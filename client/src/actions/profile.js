@@ -5,11 +5,15 @@ import {
   PROFILE_ERROR,
   CREATE_EXPERIENCE,
   CREATE_EDUCATION,
+  DELETE_PROFILE,
+  CLEAR_PROFILE,
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert } from './alert';
 
-export const createProfile = (formData, history) => async (dispatch) => {
+export const createProfile = (formData, history, edit = false) => async (
+  dispatch
+) => {
   try {
     const config = {
       headers: {
@@ -24,8 +28,10 @@ export const createProfile = (formData, history) => async (dispatch) => {
       type: CREATE_PROFILE_SUCESS,
       payload: response.data.data,
     });
-    dispatch(setAlert('profile created successfully', 'success'));
-    history.push('/dashboard');
+    dispatch(setAlert(edit ? 'profile updated' : 'profile created', 'success'));
+    if (!edit) {
+      history.push('/dashboard');
+    }
   } catch (err) {
     const errors = err.response.data.errors;
     const error = err.response.data.error;
@@ -117,5 +123,53 @@ export const addEducation = (formData, history) => async (dispatch) => {
     dispatch({
       type: PROFILE_ERROR,
     });
+  }
+};
+
+export const deleteExperience = (experienceId) => async (dispatch) => {
+  try {
+    const response = await axios.delete(
+      `/api/v1/profile/experience/${experienceId}`
+    );
+
+    //this is the way this will work based on the way we structured our data
+    dispatch({
+      type: GET_PROFILE,
+      payload: response.data.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteEducation = (educationId) => async (dispatch) => {
+  try {
+    const response = await axios.delete(
+      `/api/v1/profile/education/${educationId}`
+    );
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: response.data.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteProfile = () => async (dispatch) => {
+  if (window.confirm('are you sure?')) {
+    try {
+      await axios.delete(`/api/v1/profile`);
+
+      dispatch({
+        type: DELETE_PROFILE,
+      });
+      dispatch({
+        type: CLEAR_PROFILE,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

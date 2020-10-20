@@ -5,12 +5,12 @@ import {
   PROFILE_ERROR,
   CREATE_EXPERIENCE,
   CREATE_EDUCATION,
+  DELETE_PROFILE,
+  CLEAR_PROFILE,
 } from '../actions/types';
 
 const initialState = {
   profile: null,
-  education: null,
-  experience: null,
   loading: true,
 };
 
@@ -26,14 +26,14 @@ export default function (state = initialState, action) {
     case CREATE_EXPERIENCE:
       return {
         ...state,
-        experience: payload,
+        profile: payload,
         loading: false,
       };
 
     case CREATE_EDUCATION:
       return {
         ...state,
-        education: payload,
+        profile: payload,
         loading: false,
       };
 
@@ -49,6 +49,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: payload,
+        loading: false,
+      };
+
+    case DELETE_PROFILE:
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
         loading: false,
       };
 

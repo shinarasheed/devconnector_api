@@ -132,7 +132,7 @@ class PostController {
    */
   static async getPosts(req, res) {
     try {
-      const posts = await Post.find();
+      const posts = await Post.find().sort({ date: -1 });
       res
         .status(200)
         .json({ status: 'success', count: posts.length, data: posts });
