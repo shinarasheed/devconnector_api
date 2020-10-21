@@ -45,6 +45,7 @@ router.delete(
 router.delete('/', verifyToken, ProfileController.deleteProfile);
 
 router.get('/', verifyToken, ProfileController.getProfile);
+router.get('/all', verifyToken, ProfileController.getProfiles);
 
 router.get('/github/:username', verifyToken, ProfileController.getGithubrepos);
 

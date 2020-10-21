@@ -20,7 +20,8 @@ import AddExperience from './components/profile/addExperience';
 import EditProfile from './components/profile/EditProfile';
 import PostList from './components/posts/PostList';
 import PostForm from './components/posts/PostForm';
-// import { LOGOUT } from './actions/types';
+import SinglePost from './components/posts/SinglePost';
+import { LOG_OUT } from './actions/types';
 
 if (localStorage.token) {
   setAuthtoken(localStorage.token);
@@ -30,10 +31,10 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
 
-    // // log user out from all tabs if they log out in one tab
-    // window.addEventListener('storage', () => {
-    //   if (!localStorage.token) store.dispatch({ type: LOGOUT });
-    // });
+    // log user out from all tabs if they log out in one tab
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOG_OUT });
+    });
   }, []);
   return (
     <Provider store={store}>
@@ -64,6 +65,7 @@ const App = () => {
           <ProtectedRoute exact path="/edit-profile" component={EditProfile} />
           <ProtectedRoute exact path="/add-post" component={PostForm} />
           <ProtectedRoute exact path="/posts" component={PostList} />
+          <ProtectedRoute exact path="/post/:postId" component={SinglePost} />
           <Route component={NotFound} />
         </Switch>
       </Router>

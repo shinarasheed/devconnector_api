@@ -5,11 +5,13 @@ import {
   PROFILE_ERROR,
   CREATE_EXPERIENCE,
   CREATE_EDUCATION,
+  GET_PROFILES,
   DELETE_PROFILE,
   CLEAR_PROFILE,
 } from '../actions/types';
 
 const initialState = {
+  profiles: [],
   profile: null,
   loading: true,
 };
@@ -49,6 +51,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: payload,
+        loading: false,
+      };
+
+    case GET_PROFILES:
+      return {
+        ...state,
+        profiles: payload,
         loading: false,
       };
 

@@ -270,6 +270,31 @@ class ProfileController {
   }
 
   /**
+   * get all profile.
+   * @param {Request} req - Response object.
+   * @param {Response} res - The payload.
+   * @memberof PostController
+   * @returns {JSON} - A JSON success response.
+   */
+  static async getProfiles(req, res) {
+    try {
+      const profiles = await Profile.find().populate('user', [
+        'name',
+        'avatar',
+      ]);
+
+      res.status(200).json({
+        status: 'success',
+        count: profiles.length,
+        data: profiles,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ status: 'error', error: 'Server error' });
+    }
+  }
+
+  /**
    * get user's github repos.
    * @param {Request} req - Response object.
    * @param {Response} res - The payload.

@@ -19,3 +19,4 @@ export const EDIT_PROFILE = 'EDIT_PROFILE';
 export const CREATE_POST = 'CREATE_POST';
 export const POST_FAILURE = 'POST_FAILURE';
 export const GET_POSTS = 'GET_POSTS';
+export const GET_PROFILES = 'GET_PROFILES';

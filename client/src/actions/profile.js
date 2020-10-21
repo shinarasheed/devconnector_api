@@ -5,6 +5,7 @@ import {
   PROFILE_ERROR,
   CREATE_EXPERIENCE,
   CREATE_EDUCATION,
+  GET_PROFILES,
   DELETE_PROFILE,
   CLEAR_PROFILE,
 } from '../actions/types';
@@ -171,5 +172,23 @@ export const deleteProfile = () => async (dispatch) => {
     } catch (error) {
       console.log(error);
     }
+  }
+};
+
+export const getProfiles = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/v1/profile/all`);
+
+    console.log(response.data.data);
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: response.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+    });
+    console.log(error);
   }
 };

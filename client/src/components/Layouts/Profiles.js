@@ -1,79 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getProfiles } from '../../actions/profile';
+import profile from '../../reducers/profile';
+import Spinner from '../Layouts/Spinner';
+import Profile from '../profile/Profile';
 
-const Profiles = () => {
+const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+  useEffect(() => {
+    getProfiles();
+  }, []);
   return (
-    <section className="container">
-      <h1 className="large text-primary">Developers</h1>
-      <p className="lead">
-        <i className="fab fa-connectdevelop"></i> Browse and connect with
-        developers
-      </p>
-      <div className="profiles">
-        <div className="profile bg-light">
-          <img
-            className="round-img"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-            alt=""
-          />
-          <div>
-            <h2>John Doe</h2>
-            <p>Developer at Microsoft</p>
-            <p>Seattle, WA</p>
-            <Link to="/profile" className="btn btn-primary">
-              View Profile
-            </Link>
+    <>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <section className="container">
+          <h1 className="large text-primary">Developers</h1>
+          <p className="lead">
+            <i className="fab fa-connectdevelop"></i> Browse and connect with
+            developers
+          </p>
+
+          <div className="profiles">
+            {profiles.length > 0 ? (
+              profiles.map((profile) => (
+                <Profile key={profile._id} profile={profile} />
+              ))
+            ) : (
+              <h4> No Profiles Found</h4>
+            )}
           </div>
-
-          <ul>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> HTML
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> CSS
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> JavaScript
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> Python
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> C#
-            </li>
-          </ul>
-        </div>
-
-        <div className="profile bg-light">
-          <img
-            className="round-img"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-            alt=""
-          />
-          <div>
-            <h2>John Doe</h2>
-            <p>Developer at Microsoft</p>
-            <p>Seattle, WA</p>
-            <Link to="/profile" className="btn btn-primary">
-              View Profile
-            </Link>
-          </div>
-
-          <ul>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> HTML
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> CSS
-            </li>
-            <li className="text-primary">
-              <i className="fas fa-check"></i> JavaScript
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
 
-export default Profiles;
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getProfiles })(Profiles);
