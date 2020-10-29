@@ -11,7 +11,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   }, []);
   return (
     <>
-      {loading ? (
+      {loading && profiles !== null ? (
         <Spinner />
       ) : (
         <section className="container">

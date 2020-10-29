@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createPost } from '../../actions/post';
 
-const PostForm = ({ createPost }) => {
+const PostForm = ({ createPost, history }) => {
   const [text, setText] = useState('');
 
   const onChange = (e) => {
@@ -11,7 +11,7 @@ const PostForm = ({ createPost }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createPost({ text });
+    createPost({ text }, history);
     setText('');
   };
 

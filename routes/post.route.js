@@ -19,6 +19,7 @@ router.put(
   verifyToken,
   PostController.updatePost
 );
+router.delete('/:postId', verifyToken, PostController.deletePost);
 
 router.get('/', PostController.getPosts);
 router.get('/:postId', verifyToken, PostController.getPost);

@@ -88,8 +88,8 @@ class PostController {
    */
   static async deletePost(req, res) {
     try {
-      const Post = await Post.findOne({ _id: req.Post }).select('-password');
-      res.status(200).json({ status: 'success', data: Post });
+      await Post.findOneAndRemove({ _id: req.params.postId });
+      res.status(200).json({ status: 'success', message: 'post deleted' });
     } catch (err) {
       console.log(err.message);
       res.status(500).json({ status: 'error', error: 'Server error' });

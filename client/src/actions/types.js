@@ -16,7 +16,14 @@ export const CREATE_EDUCATION = 'CREATE_EDUCATION';
 export const DELETE_PROFILE = 'DELETE_PROFILE';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const EDIT_PROFILE = 'EDIT_PROFILE';
+export const GET_PROFILES = 'GET_PROFILES';
+
 export const CREATE_POST = 'CREATE_POST';
 export const POST_FAILURE = 'POST_FAILURE';
 export const GET_POSTS = 'GET_POSTS';
-export const GET_PROFILES = 'GET_PROFILES';
+export const GET_POST = 'GET_POST';
+export const DELETE_POST = 'DELETE_POSTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+export const LIKE_POST = 'LIKE_POST';
+export const UNLIKE_POST = 'UNLIKE_POST';
